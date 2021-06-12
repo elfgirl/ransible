@@ -1,0 +1,112 @@
+---
+
+- name: "DumpVars"
+  vars: 
+    msg: |
+      Module Variables ("vars"):
+      --------------------------------
+      {{ vars | to_nice_json }} 
+      
+      Environment Variables ("environment"):
+      --------------------------------
+      {{ environment | to_nice_json }} 
+      
+      GROUP NAMES Variables ("group_names"):
+      --------------------------------
+      {{ group_names | to_nice_json }}
+      
+      GROUPS Variables ("groups"):
+      --------------------------------
+      {{ groups | to_nice_json }}
+      
+      HOST Variables ("hostvars"):
+      --------------------------------
+      {{ hostvars | to_nice_json }} 
+  debug: 
+    msg: "{{ msg.split('\n') }}"  
+    verbosity : 4
+
+- include: loadconfig.yml
+
+# Gather facts specific to the Raspberry Pi platform
+- include: raspi-facts.yml
+
+
+- name: "change hostname {{ current_hostname }} if not already {{ raspi_hostname }}"
+  shell: "raspi-config nonint do_hostname {{ raspi_hostname }}"
+  when: current_hostname != raspi_hostname
+
+- name: "call rebootless hostname change"
+  command:
+    cmd: "hostnamectl set-hostname {{ raspi_hostname }}"
+  when: current_hostname != raspi_hostname
+  
+- name: "restart service avahi if hostname has changed"
+  ansible.builtin.service:
+    name: avahi-daemon
+    state: restarted
+  when: current_hostname != raspi_hostname
+  
+- name: "update /etc/hosts with new hostname"
+  lineinfile:
+    dest=/etc/hosts
+    regexp="^{{ ansible_default_ipv4.address }}"
+    line="{{ ansible_default_ipv4.address }}{{'\t'}}{{ raspi_hostname }}.{{ raspi_domain }}{{'\t'}}{{ raspi_hostname }}"
+    state=present
+
+# - name: "get rid of default 127.0.1.1 binding"
+#   lineinfile:
+#     dest=/etc/hosts
+#     regexp="^127.0.1.1"
+#     state=absent
+
+# Set X keyboard layout
+- name: "set X11 keyboard layout"
+  command: "raspi-config nonint do_configure_keyboard {{ xkblayout }}"
+  when: "xkblayout|default(false) and linux_xkblayout != xkblayout"
+
+# Set wifi country
+- name: "set wifi country"
+  command: "raspiconfig nonint do_wifi_country {{ wifi_country }}"
+  when: "wifi_country|default(false) and wifi_country != raspi_wifi_country"
+
+# # Enable sshd
+# - name: "disable ssh login for user pi"
+#   lineinfile:
+#     dest=/etc/ssh/sshd_config
+#     line="DenyUsers pi"
+#     state=present
+#   tags:
+#     - raspi
+
+- name: "enable SSH via raspi-config"
+  shell: "raspi-config nonint do_ssh 0"
+  when: not raspi_ssh_enabled
+  tags:
+    - raspi
+
+# Other tasks
+- include: software.yml
+- include: users.yml
+- include: raspi-config.yml
+- include: python.yml
+
+# Install motd
+# May be easier to pull from /sys/firmware/devicetree/base/model
+- name: "load Raspberry Pi hardware history"
+  include_vars:
+    file: vars/raspi-models.yml
+  tags:
+    - motd
+
+- name: "install motd"
+  template:
+    src: etc/motd
+    dest: /etc/motd
+    owner: root
+    group: root
+    mode: "0644"
+  tags:
+    - motd
+
+- include: ufw.yml

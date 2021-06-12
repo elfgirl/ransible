@@ -1,0 +1,11 @@
+---
+- name: Raspberry Pi self configuration
+  hosts: localhost
+  user: root
+  connection: local
+  vars_files:
+    - host_vars/host_maps.yml
+
+  roles:
+    - common
+    - rpi

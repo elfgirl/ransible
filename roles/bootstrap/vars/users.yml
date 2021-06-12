@@ -1,0 +1,14 @@
+# Example of users.yml which you may want to encrypt using ansible-vault.
+#
+# Users that must be present on the system
+#
+create_users:
+  - name: ransible
+    comment: "Default Rasbian Configuration account"
+    uid: 1023
+    group: users
+    # don't include the group from 'group:' above in the 'groups:' below; this
+    # breaks idempotency for some reason
+    groups: "adm,sudo"
+    pubkey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBBAhuDYEN/SFbzAgjNb+YfHg/+WkQ6GoHrmJlILQegI"
+  

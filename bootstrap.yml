@@ -1,0 +1,4 @@
+---
+- hosts: bootstrap
+  roles: 
+    - bootstrap

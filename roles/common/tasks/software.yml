@@ -1,0 +1,24 @@
+---
+# Install software required for all environments
+- name: "software : install basic software environment"
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+      - vim
+      - screen
+      - git
+      - ufw
+      - fish
+  tags:
+    - sw
+
+- name: "software : install additional host-specific software"
+  apt:
+    name: "{{ host_software | default([]) }}"
+    state: present
+    update_cache: yes
+  tags:
+    - sw

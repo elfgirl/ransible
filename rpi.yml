@@ -1,0 +1,9 @@
+---
+
+- hosts: raspberrypi
+  vars_files:
+    - host_vars/host_maps.yml
+
+  roles:
+    - common
+    - rpi

@@ -1,0 +1,24 @@
+- name: "users : import user configs from vars/users.yml"
+  include_vars:
+    file: vars/users.yml
+  tags:
+    - users
+
+### Create user accounts
+- name: "users : create users"
+  user: name="{{ item.name }}"
+        comment="{{ item.comment }}"
+        group="{{ item.group }}"
+        groups="{{ item.groups }}"
+        uid="{{ item.uid }}"
+        state=present
+        shell=/bin/bash
+  with_items: "{{ create_users }}"
+  tags: [ 'users' ]
+
+- name: "users : install ssh pubkeys for new users"
+  authorized_key: user="{{ item.name }}"
+                  key="{{ item.pubkey }}"
+                  state=present
+  with_items: "{{ create_users }}"
+  tags: [ 'users' ]
