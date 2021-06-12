@@ -40,13 +40,13 @@
   command:
     cmd: "hostnamectl set-hostname {{ raspi_hostname }}"
   when: current_hostname != raspi_hostname
-  
+
 - name: "restart service avahi if hostname has changed"
-  ansible.builtin.service:
+  service:
     name: avahi-daemon
     state: restarted
   when: current_hostname != raspi_hostname
-  
+
 - name: "update /etc/hosts with new hostname"
   lineinfile:
     dest=/etc/hosts

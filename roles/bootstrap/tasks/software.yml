@@ -7,9 +7,9 @@
     update_cache: yes
   vars:
     packages:
+      - ntp
       - python-pip
       - python3-pip
-      - ansible
   tags:
     - sw
 
@@ -24,8 +24,13 @@
   tags:
     - sw
 
-
-
+- name: "python : now the ansible installs. Force via pip for latest verisons"
+  pip:
+    name:
+      - pip3
+      - ansible
+    executable: pip3
+    state: latest
 
 - name: "software : Remove useless packages from the cache"
   apt:
