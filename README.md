@@ -1,8 +1,13 @@
 # Raspberry Pi Ansible Playbook
 
 Adrianne Mulvaney
-heavily based off of https://github.com/glennklockwood/rpi-ansible with a few tweaks and fixes mostly around how local versus remote is performed. Some better logging and inclusion of python configs
 
+Heavily based off of https://github.com/glennklockwood/rpi-ansible with the following tweaks and fixes 
+
+* More focused on local/pull models so nodes can self configure. 
+* Bootstrap section to enable setup of ansible-pull on a cron schedule plus boot
+* Python setup and general housekeeping
+* Some better logging
 
 ## Introduction
 
@@ -10,37 +15,23 @@ This is an Ansible configuration that configures a fresh Raspbian installation
 on Raspberry Pi.  It can be run in local (pull) mode, where ansible is running
 on the same Raspberry Pi to be configured, or standard remote mode. 
 
-## Bootstrapping on Raspbian
+## Bootstrap Steps
 
-You will need ansible installed on the Raspberry Pi being configured.  This
-playbook relies on Ansible 2.8 or newer, which means you can no longer use
-`sudo apt-get install ansible`.  Instead, you must
+Flash your microSD with the latest Rasbain flavor of choice (Lite is recommended)
+Configure your headless network via these docs https://desertbot.io/blog/headless-raspberry-pi-4-ssh-wifi-setup You will only need to follow the SSH and WiFi steps. Keygen, bonjour and the rest are handled in the bootstrap.yml
 
-    $ python3 -m venv --system-site-packages ansible_env
+Update `repo_url` in bootstrap.yml to point to your git repository. Rememeber the ansible-pull playbook must be named `local.yml`. Setting up a PAB for private repositories is left as an exercise for the readers
 
-If this fails, you may need to:
+* Boot your Pi and log in via the default credentials `pi@raspberrypi.local` and `rasberry`. 
+* Run `ifconfig` and record the MAC address (or read it from route tables on your router)
+* Update the host_vars/hostmaps.yml with the MAC address and hostname
+* Create a `hostname.yml` file in `host_vars` with the desired options (see ##Configuration for specifics)
+* To add local users, create and edit `roles/rpi/vars/users.yml`.  Follow the structure in `roles/rpi/vars/users.yml.example`. 
+* Commit the updates
 
-    $ sudo apt install python3-apt python3-virtualenv
+Execute `(ansible_env) $ ansible-playbook ./bootstrap.yml -t all`
 
-Then activate the environment and install ansible:
-    
-    $ source ./ansible_env/bin/activate
-    
-    # Make sure that pip will install into our virtualenv
-    (ansible_env) $ which pip
-    /home/pi/src/git/rpi-ansible/ansible/bin/pip
-    
-    # Install ansible and any other requirements
-    (ansible_env) $ pip install -r requirements.txt
-
-Note that the Python 3.5 that ships with Debian 9.13 doesn't install pip when
-`-m venv` is used as above.  It may be easier to simply use
-
-    $ pip3 install --user ansible
-
-which pollutes your login Python environment, but is better than nothing.
-
-Grab the MAC address for eth0 or wlan0 with `ifconfig' while you are here
+If you do not want to use the local pull model but would like to bootstrap, you can exclude the `pull` tag to skip cron and clone
 
 ## Configuration
 
@@ -54,39 +45,24 @@ structure in `roles/rpi/vars/users.yml.example`.  You can/should
 `ansible-vault` this file.
 
 
-## Using Remote Mode
+## Using Remote Mode (standard push model)
 
+Update the hosts file with the desired inventory
 Run one of the playbooks as you would do normally:
 
-    (ansible_env) $ ansible-playbook ./rpi.yml
+    (ansible_env) $ ansible-playbook ./rpi.yml -t all 
 
 The default hosts file and `become_*` configurations are set in ansible.cfg.
 
-## Using Local Mode
+## Using Local Mode (pull self-configuring and updating)
 
-Edit `host_vars/host_maps.yml` and add the mac address of `eth0` for the Raspberry Pi to
-configure to the `macaddrs` variable.  Its key should be a mac address (all
-lower case) and the value should be the short hostname of that system.  Each
-such entry's short hostname must match a file in the `host_vars/` directory.
+Edit `host_vars/host_maps.yml` and add the mac address of `eth0`/`wlan0` for the Raspberry Pi to the `macaddrs` variable.  Its key should be a mac address (all lower case) and the value should be the short hostname of that system.  Each such entry's short hostname must match a file in the `host_vars/` directory.
 
-Then run the playbook:
+Then run the playbook from the Rasberry Pi :
 
     (ansible_env) $ ansible-playbook ./local.yml
 
-The playbook will self-discover its settings, then idempotently configure the
-Raspberry Pi.
-
-That said, it is better to use remote mode (so Ansible ssh'es into localhost)
-since that's what I most commonly test.
-
-## Running the playbook
-
-# Remote 
-From the root of the ansible playbook directory. Execute the following
-
-```
-ansible-playbook ./rpi.yml -t all
-```
+The playbook will self-discover its settings, then idempotently configure the Raspberry Pi.
 
 
 ## After running the playbook
@@ -94,14 +70,8 @@ ansible-playbook ./rpi.yml -t all
 This playbook purposely requires a few manual steps _after_ running the playbook
 to ensure that it does not lock you out of your Raspberry Pi.
 
-1. While logged in as pi, `sudo passwd glock` (or whatever username you created)
-   to set a password for that user.  This is _not_ required to log in as that
-   user, but it _is_ required to `sudo` as that user.  You may also choose to
-   set a password for the pi and/or root users.
+1. `usermod --lock pi` to ensure that the default user is completely disabled.
 
-2. `usermod --lock pi` to ensure that the default user is completely disabled.
-
-## Optional configurations
 
 ### SSH host keys
 
@@ -115,4 +85,4 @@ The playbook will detect the presence of these files and install them.
 
 ## Acknowledgment
 
-I stole a lot of knowledge from https://github.com/giuaig/ansible-raspi-config/.
+I stole a lot of knowledge from https://github.com/glennklockwood/rpi-ansible

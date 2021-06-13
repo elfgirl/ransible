@@ -1,0 +1,13 @@
+# Example of users.yml which you may want to encrypt using ansible-vault.
+#
+# Users that must be present on the system
+#
+create_users:
+  - name: elfgirl
+    comment: "ElfGirl"
+    uid: 1024
+    group: users
+    # don't include the group from 'group:' above in the 'groups:' below; this
+    # breaks idempotency for some reason
+    groups: "adm,dialout,sudo,audio,video,plugdev,games,input,netdev,spi,i2c,gpio"
+    pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCkKvtjviOxDFZBchqJiYZZodI5mVXZRDti2G/4QmKg4etfgg9Ws5WksMwJxGm/EJJMhx/oLaXR+/xxKyUPjoushJoyS6iuhscaTpJi0TlU5zpZ+QrGU6+UwTDUwahgWE8T+zoQxAPppZZHWEGWOumfi/bmTLCmbuHy6XfBBWK/f8dRJhpboR4/CZz9B4sCCIYzTjbWBJO6vCvAzD4QcWNW7T9Z1Inxwqo7GGBz8USwTK4Z8q1CB0FVeJartXNK+LCtDLzKlWFmGoNt2a7PJ0lmGidSk95jsgidUMmeVP8t/yPkLeVMrSFSqrGwZ9XoVPtKHF8ry7CWCuTZ+zVk+HkZxP0pXPps5OXcjJ0uE7AAnYJfsrZ8/nKfJY19KsfULRJi3ODQJTQgZ7JRiTUmxZQNnlJbYwbW1kt9neXHhN3WbJDqC9tGUhwoKp5Z95h4H0V1eJJJ0toAqBq6QqFEOpq1Nl+hqalfVIGTZHR0W7FJShLTL1lxfPErPxm3Eg9HW4uPqIlvXHIJpEtUyAntrMUte9JclAdKUoybrcWHW7Zf4q1ZLS8oE3hVUlgK2RKmL/LYefu/cnWJEhe7cF9NWdgPhKR02eLmY/Ni3sv/BoHKH9e+ThuXOGJeMS3ENQsnmuqOUxsdqUWXelChHPh3caYLt801DnJoIrnDtBhzimk6QQ=="

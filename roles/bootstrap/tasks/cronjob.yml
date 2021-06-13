@@ -5,6 +5,8 @@
     owner=root 
     group=root 
     mode=0751
+  tags:
+    - pull
 
 - name: "cronjob : create regular crontab entry to clone/pull git repository"
   template: 
@@ -13,6 +15,8 @@
     owner=root 
     group=root 
     mode=0644
+  tags:
+    - pull
 
 - name: "cronjob : create reboot crontab entry to clone/pull git repository"
   vars :
@@ -23,7 +27,8 @@
     owner=root 
     group=root 
     mode=0644
-
+  tags:
+    - pull
 
 - name: "cronjob : create logrotate entry for ansible-pull.log"
   template: 
@@ -32,3 +37,5 @@
     owner=root 
     group=root 
     mode=0644
+  tags:
+    - pull    
