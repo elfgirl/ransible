@@ -1,7 +1,7 @@
 ---
 timezone: "America/Los_Angeles"
 locale: "en_US.UTF-8"
-raspi_hostname: "jamberry01"
+raspi_hostname: "jamberry"
 raspi_domain: "local"
 xkblayout: "us"
 wifi_country: "US"

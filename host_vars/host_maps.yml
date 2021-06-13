@@ -1,3 +1,3 @@
 macaddrs:
     # mac address of eth0 -> hostname; used to identify self when run against localhost
-    b8:27:eb:bc:cd:6f: "jamberry01"
+    b8:27:eb:bc:cd:6f: "jamberry"
