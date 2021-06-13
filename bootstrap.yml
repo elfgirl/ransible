@@ -1,4 +1,6 @@
 ---
 - hosts: bootstrap
+  vars :
+    repo_url : https://github.com/elfgirl/ransible.git
   roles: 
     - bootstrap

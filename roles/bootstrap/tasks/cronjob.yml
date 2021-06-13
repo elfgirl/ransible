@@ -1,0 +1,34 @@
+- name: "cronjob : create local directory to work from"
+  file: 
+    path=/var/lib/ansible/local 
+    state=directory 
+    owner=root 
+    group=root 
+    mode=0751
+
+- name: "cronjob : create regular crontab entry to clone/pull git repository"
+  template: 
+    src=templates/etc_cron.d_ansible-pull.j2 
+    dest=/etc/cron.d/ansible-pull 
+    owner=root 
+    group=root 
+    mode=0644
+
+- name: "cronjob : create reboot crontab entry to clone/pull git repository"
+  vars :
+    schedule : @reboot
+  template: 
+    src=templates/etc_cron.d_ansible-pull.j2 
+    dest=/etc/cron.d/ansible-pull-reboot
+    owner=root 
+    group=root 
+    mode=0644
+
+
+- name: "cronjob : create logrotate entry for ansible-pull.log"
+  template: 
+    src=templates/etc_logrotate.d_ansible-pull.j2 
+    dest=/etc/logrotate.d/ansible-pull 
+    owner=root 
+    group=root 
+    mode=0644
