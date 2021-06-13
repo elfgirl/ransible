@@ -20,7 +20,7 @@
 
 - name: "cronjob : create reboot crontab entry to clone/pull git repository"
   vars :
-    schedule : @reboot
+    schedule : "@reboot"
   template: 
     src=templates/etc_cron.d_ansible-pull.j2 
     dest=/etc/cron.d/ansible-pull-reboot

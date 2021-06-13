@@ -4,7 +4,7 @@
 - include: cronjob.yml
 
 - name: "do an initial git clone into the working directory to speed things up"
-  it:
+  git:
     repo: "{{ repo_url }}"
     dest: "{{ workdir }}"
   tags:
