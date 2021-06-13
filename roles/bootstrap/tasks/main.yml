@@ -1,3 +1,27 @@
 
 - include: users.yml
 - include: software.yml
+- include: cronjob.yml
+
+- name: "do an initial git clone into the working directory to speed things up"
+  it:
+    repo: "{{ repo_url }}"
+    dest: "{{ workdir }}"
+  tags:
+    - pull
+
+- name: "Reboot immediately if there was a change."
+  shell: "sleep 5 && reboot"
+  async: 1
+  poll: 0
+  tags:
+    - pull
+
+- name: "Wait for the reboot to complete if there was a change."
+  wait_for_connection:
+    connect_timeout: 20
+    sleep: 5
+    delay: 5
+    timeout: 300
+  tags:
+    - pull

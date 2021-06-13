@@ -15,7 +15,7 @@ This is an Ansible configuration that configures a fresh Raspbian installation
 on Raspberry Pi.  It can be run in local (pull) mode, where ansible is running
 on the same Raspberry Pi to be configured, or standard remote mode. 
 
-## Bootstrap Steps
+## Using Bootstrap Mode (configure pull and self-configuring options)
 
 Flash your microSD with the latest Rasbain flavor of choice (Lite is recommended)
 Configure your headless network via these docs https://desertbot.io/blog/headless-raspberry-pi-4-ssh-wifi-setup You will only need to follow the SSH and WiFi steps. Keygen, bonjour and the rest are handled in the bootstrap.yml
@@ -29,11 +29,38 @@ Update `repo_url` in bootstrap.yml to point to your git repository. Rememeber th
 * To add local users, create and edit `roles/rpi/vars/users.yml`.  Follow the structure in `roles/rpi/vars/users.yml.example`. 
 * Commit the updates
 
-Execute `(ansible_env) $ ansible-playbook ./bootstrap.yml -t all`
+*NOTE* this will reboot your Pi once to start the auto-config pull
+
+```shell
+    (ansible_env) $ ansible-playbook ./bootstrap.yml -t all
+```  
 
 If you do not want to use the local pull model but would like to bootstrap, you can exclude the `pull` tag to skip cron and clone
 
-## Configuration
+## Using Remote Mode (standard push model)
+
+Update the hosts file with the desired inventory
+Run one of the playbooks as you would do normally:
+
+```shell
+    (ansible_env) $ ansible-playbook ./rpi.yml -t all 
+```
+
+The default hosts file and `become_*` configurations are set in ansible.cfg.
+
+## Using Local Mode (manual pull and updating) instead of Bootstrap
+
+Edit `host_vars/host_maps.yml` and add the mac address of `eth0`/`wlan0` for the Raspberry Pi to the `macaddrs` variable.  Its key should be a mac address (all lower case) and the value should be the short hostname of that system.  Each such entry's short hostname must match a file in the `host_vars/` directory.
+
+Then run the playbook from the Rasberry Pi :
+
+```
+    (pi_ansible_env) $ ansible-playbook ./local.yml
+```
+
+The playbook will self-discover its settings, then idempotently configure the Raspberry Pi.
+
+## Host Configuration Options
 
 The contents of each file in `host_vars/` is the intended configuration state
 for each Raspberry Pi.  Look at one of the examples included to get a feel for
@@ -43,26 +70,6 @@ undefined, do not enforce a specific configuration.
 To add local users, create and edit `roles/rpi/vars/users.yml`.  Follow the
 structure in `roles/rpi/vars/users.yml.example`.  You can/should
 `ansible-vault` this file.
-
-
-## Using Remote Mode (standard push model)
-
-Update the hosts file with the desired inventory
-Run one of the playbooks as you would do normally:
-
-    (ansible_env) $ ansible-playbook ./rpi.yml -t all 
-
-The default hosts file and `become_*` configurations are set in ansible.cfg.
-
-## Using Local Mode (pull self-configuring and updating)
-
-Edit `host_vars/host_maps.yml` and add the mac address of `eth0`/`wlan0` for the Raspberry Pi to the `macaddrs` variable.  Its key should be a mac address (all lower case) and the value should be the short hostname of that system.  Each such entry's short hostname must match a file in the `host_vars/` directory.
-
-Then run the playbook from the Rasberry Pi :
-
-    (ansible_env) $ ansible-playbook ./local.yml
-
-The playbook will self-discover its settings, then idempotently configure the Raspberry Pi.
 
 
 ## After running the playbook
