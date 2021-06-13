@@ -8,6 +8,7 @@
   vars:
     packages:
       - ntp
+      - avahi-daemon
       - python-pip
       - python3-pip
   tags:
@@ -27,7 +28,7 @@
 - name: "python : now the ansible installs. Force via pip for latest verisons"
   pip:
     name:
-      - pip3
+      - pip
       - ansible
     executable: pip3
     state: latest
