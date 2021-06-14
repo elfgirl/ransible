@@ -26,7 +26,5 @@
     name: ntp
     state: restarted
 
-
 - include: software.yml
-- include: sshd.yml
 - include: cpufreq.yml

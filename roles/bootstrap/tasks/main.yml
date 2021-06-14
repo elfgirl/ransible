@@ -2,6 +2,7 @@
 - include: users.yml
 - include: software.yml
 - include: cronjob.yml
+- include: sshd.yml
 
 - name: "do an initial git clone into the working directory to speed things up"
   git:
@@ -17,11 +18,12 @@
   tags:
     - pull
 
-- name: "Wait for the reboot to complete if there was a change."
-  wait_for_connection:
-    connect_timeout: 20
-    sleep: 5
-    delay: 5
-    timeout: 300
-  tags:
-    - pull
+# SSHD keys rotated, so when connecting it thinks the ssh is being mitm and stops (working theory)
+# - name: "Wait for the reboot to complete if there was a change."
+#   wait_for_connection:
+#     connect_timeout: 20
+#     sleep: 5
+#     delay: 5
+#     timeout: 300
+#   tags:
+#     - pull

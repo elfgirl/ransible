@@ -11,6 +11,8 @@
       - avahi-daemon
       - python-pip
       - python3-pip
+      - git
+      - powertop
   tags:
     - sw
 
