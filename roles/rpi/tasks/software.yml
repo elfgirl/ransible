@@ -9,6 +9,7 @@
     packages:
       - python-pip
       - python3-pip
+      - gpiod
   tags:
     - sw
 
