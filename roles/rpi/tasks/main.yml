@@ -54,11 +54,11 @@
     line="{{ ansible_default_ipv4.address }}{{'\t'}}{{ raspi_hostname }}.{{ raspi_domain }}{{'\t'}}{{ raspi_hostname }}"
     state=present
 
-# - name: "get rid of default 127.0.1.1 binding"
-#   lineinfile:
-#     dest=/etc/hosts
-#     regexp="^127.0.1.1"
-#     state=absent
+- name: "get rid of default 127.0.1.1 binding"
+  lineinfile:
+    dest=/etc/hosts
+    regexp="^127.0.1.1"
+    state=absent
 
 # Set X keyboard layout
 - name: "set X11 keyboard layout"
