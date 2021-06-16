@@ -3,3 +3,4 @@ pi_boot  ansible_host=raspberrypi.local ansible_user=pi ansible_password=raspber
 
 [raspberrypi]
 jamberry  ansible_host=jamberry.local ansible_user=ransible ansible_ssh_private_key_file=~/.ssh/ransible
+clackberry  ansible_host=clackberry.local ansible_user=ransible ansible_ssh_private_key_file=~/.ssh/ransible
