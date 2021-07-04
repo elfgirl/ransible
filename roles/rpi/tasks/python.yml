@@ -17,6 +17,7 @@
   pip:
     name:
       - gunicorn
+      - sqlalchemy
     executable: pip3
   tags:
     - python

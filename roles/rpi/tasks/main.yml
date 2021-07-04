@@ -66,7 +66,7 @@
   when: "xkblayout|default(false) and linux_xkblayout != xkblayout"
 
 # Set wifi country
-- name: "set wifi country"
+- name: "set wifi country "
   command: "raspi-config nonint do_wifi_country {{ wifi_country }}"
   when: "wifi_country|default(false) and wifi_country != raspi_wifi_country"
 
