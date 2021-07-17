@@ -10,10 +10,6 @@
       - python3-gpiozero
       - python3-inkyphat
       - python3-picamera
-      - smbus         
-      - adafruit-blinka
-      - adafruit-circuitpython-mcp3xxx
-      - adafruit-circuitpython-ads1x15
 
   tags:
     - python
@@ -23,6 +19,10 @@
     name:
       - gunicorn
       - sqlalchemy
-    executable: pip3
+      - smbus         
+      - adafruit-blinka
+      - adafruit-circuitpython-mcp3xxx
+      - adafruit-circuitpython-ads1x15
+      executable: pip3
   tags:
     - python
