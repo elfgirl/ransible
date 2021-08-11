@@ -18,6 +18,7 @@
   pip:
     name:
       - gunicorn
+      - supervisor
       - sqlalchemy
       - smbus         
       - adafruit-blinka

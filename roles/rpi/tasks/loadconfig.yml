@@ -10,6 +10,7 @@
     - sw
     - sshd
     - motd
+    - projects
 
 
 
@@ -23,6 +24,7 @@
     - sw
     - sshd
     - motd
+    - projects
 
 # for model A, we cannot proceed because there is no mac address
 
@@ -34,7 +36,8 @@
     - sw
     - sshd
     - motd
-
+    - projects
+    
 - name: "load config : assert that configuration is loaded"
   assert:
     that:
