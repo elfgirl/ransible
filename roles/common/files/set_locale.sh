@@ -28,11 +28,11 @@
 # OTHER DEALINGS IN THE SOFTWARE.
 #
 
-local LOCALE="$1"
+LOCALE="$1"
 if ! LOCALE_LINE="$(grep "^$LOCALE " /usr/share/i18n/SUPPORTED)"; then
-  return 1
+  exit 1
 fi
-local ENCODING="$(echo $LOCALE_LINE | cut -f2 -d " ")"
+ENCODING="$(echo $LOCALE_LINE | cut -f2 -d " ")"
 echo "$LOCALE $ENCODING" > /etc/locale.gen
 sed -i "s/^\s*LANG=\S*/LANG=$LOCALE/" /etc/default/locale
 dpkg-reconfigure -f noninteractive locales
