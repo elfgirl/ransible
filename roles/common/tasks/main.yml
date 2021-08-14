@@ -27,4 +27,9 @@
     state: restarted
 
 - include: software.yml
+  tags: sw
+  
+- include: python.yml
+  tags: python
+
 - include: cpufreq.yml

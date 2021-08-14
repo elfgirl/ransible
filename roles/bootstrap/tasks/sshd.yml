@@ -7,8 +7,6 @@
   loop: "{{ ssh_host_key_files }}"
   register: result
   become: false
-  tags:
-    - sshd
 
 # at this point, each element of result.results looks like
 #   {
@@ -42,8 +40,7 @@
   loop: "{{ result.results }}"
   when: item.stat.exists
   register: result
-  tags:
-    - sshd
+
 
 # at this point, each element of result.results looks like
 #   {
@@ -102,8 +99,6 @@
   loop: "{{ result.results }}"
   when: item.changed
   register: result
-  tags:
-    - sshd
 
 - name: "sshd : regenerate SSH host public keys"
   shell:
@@ -111,5 +106,4 @@
     creates: "/{{ item.invocation.module_args.path }}"
   loop: "{{ result.results }}"
   when: item.changed
-  tags:
-    - sshd
+

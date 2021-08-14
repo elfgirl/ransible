@@ -1,0 +1,78 @@
+---
+# Install required software for alternative pythons
+- name: "python : install software for building alternative pythons"
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+      - make 
+      - build-essential
+      - libssl-dev
+      - zlib1g-dev 
+      - libbz2-dev
+      - libreadline-dev
+      - libsqlite3-dev
+      - wget 
+      - curl 
+      - llvm 
+      - libncursesw5-dev 
+      - xz-utils 
+      - tk-dev 
+      - libxml2-dev 
+      - libxmlsec1-dev 
+      - libffi-dev 
+      - liblzma-dev
+
+- name: "python : Determin if pyenv is installed"
+  stat:
+    path: "{{pyenv_executable}}"
+  register: register_pyenv
+
+- name: "python : Install pyenv"
+  git:
+    repo: https://github.com/pyenv/pyenv.git
+    dest: "{{pyenv_install_dir}}/.pyenv"
+  when: not register_pyenv.stat.exists
+
+
+- name: "python : Add path etc to .bashrc"
+  lineinfile:
+    dest: "{{pyenv_install_dir}}/.bashrc"
+    state: present
+    create: yes
+    line: "{{ item }}"
+  with_items:
+    - 'export PYENV_ROOT="$HOME/.pyenv"'
+    - 'export PATH="$PYENV_ROOT/bin:$PATH"'
+    - 'eval "$(pyenv init -)"'
+
+- name: "python : Ensure .pyenv permissions are set properly"
+  file: path="{{pyenv_install_dir}}/.pyenv"
+        recurse=yes
+        owner=pi
+        group=pi
+        state=directory
+
+- name: "python : Determine if {{pyenv_python_version}} is installed"
+  become: yes
+  become_user: 'pi'
+  shell: "{{pyenv_executable}} versions"
+  register: register_pyenv_versions
+
+
+- name: "python : Install python version {{pyenv_python_version}}. This may take awhile on low power machines. Get some coffee or tea maybe"
+  become: yes
+  become_user: 'pi'
+  shell: "{{ pyenv_executable }} install {{ pyenv_python_version }}"
+  args:
+      executable: /usr/bin/bash
+  when: '"{{pyenv_python_version}}" not in register_pyenv_versions.stdout'
+
+- name: "python : Set global python to {{pyenv_python_version}}"
+  become: yes
+  become_user: 'pi'
+  shell: "{{pyenv_executable}} global {{pyenv_python_version}} "
+
+

@@ -1,0 +1,12 @@
+---
+
+- name: "projects : ensure {{ projects_workdir }}"
+  file:
+    path: "{{  projects_workdir }}"
+    state: directory
+
+- name: "projects : clone initial list for {{ raspi_hostname }} into {{ projects_workdir }}"
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ projects_workdir }}/{{item.name}}"
+  with_items: "{{ default_projects | default([]) }}"

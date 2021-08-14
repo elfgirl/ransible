@@ -7,14 +7,13 @@
     update_cache: yes
   vars:
     packages:
-      - ntp
       - avahi-daemon
+      - git
+      - ntp
+      - powertop
       - python-pip
       - python3-pip
-      - git
-      - powertop
-  tags:
-    - sw
+      - ufw
 
 - name: "software : Run the equivalent of 'apt-get update' as a separate step"
   apt:
@@ -24,19 +23,7 @@
   apt:
     name: "*"
     state: latest
-  tags:
-    - sw
-
-- name: "python : now the ansible installs. Force via pip for latest verisons"
-  pip:
-    name:
-      - pip
-      - ansible
-    executable: pip3
-    state: latest
 
 - name: "software : Remove useless packages from the cache"
   apt:
     autoclean: yes
-  tags:
-    - sw

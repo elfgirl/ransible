@@ -18,6 +18,24 @@ enable_serial_hw: False
 enable_onewire: False
 enable_rgpio: True
 systemd_default_target: multi-user
-host_software:
-  - python3-virtualenv
+
+host_apt_software:
   - python3-yaml
+
+host_pip_software :
+  - uwsgi
+  - python3-inkyphat
+  - python3-picamera
+
+host_ports : []
+
+# NOTE ANY PRIVATE OR UNACCESIBLE HTTP REPOS WILL HANG ANSIBLE
+
+pat: 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
+
+default_projects: 
+  - { name : 'pyLadies-SC', repo : 'https://github.com/elfgirl/pyLadies-SC.git' }
+  - { name : 'RPi_Cam_Web_Interface', repo : 'https://github.com/silvanmelchior/RPi_Cam_Web_Interface.git' }
+  - { name : 'pinecrest', repo : 'https://elfgirl:{{pat}}@github.com/elfgirl/pinecrest.git'}
+
+

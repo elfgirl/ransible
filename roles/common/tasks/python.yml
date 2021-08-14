@@ -1,0 +1,10 @@
+---
+# Install software required for all environments
+- name: "python : install python material for Raspberry Pi"
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+      - python3-gpiozero

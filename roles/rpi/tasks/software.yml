@@ -7,15 +7,12 @@
     update_cache: yes
   vars:
     packages:
-      - python-pip
-      - python3-pip
       - gpiod
       - i2c-tools
       - libi2c-dev
       - python-smbus
       - python3-smbus
-  tags:
-    - sw
+
 
 # Uninstall Raspbian bloat
 - name: "software : remove raspbian bloat"
@@ -34,11 +31,15 @@
       - dillo
       - gpicview
       - penguinspuzzle
-  tags:
-    - sw
+
+
+- name: "software : install additional host-specific software"
+  apt:
+    name: "{{ host_apt_software | default([]) }}"
+    state: present
+    update_cache: yes
+
 
 - name: "software : Remove useless packages from the cache"
   apt:
     autoclean: yes
-  tags:
-    - sw

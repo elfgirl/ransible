@@ -1,8 +1,18 @@
 
 - include: users.yml
+  tags: users
+
 - include: software.yml
+  tags: sw
+
 - include: cronjob.yml
+  tags: pull
+
+- include: python.yml
+  tags: python
+
 - include: sshd.yml
+  tags: sshd
 
 - name: "do an initial git clone into the working directory to speed things up"
   git:

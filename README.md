@@ -5,6 +5,7 @@ Adrianne Mulvaney
 Heavily based off of https://github.com/glennklockwood/rpi-ansible with the following tweaks and fixes 
 
 * More focused on local/pull models so nodes can self configure. 
+* Listing of machine specific git repositories to clone for assigned projects
 * Bootstrap section to enable setup of ansible-pull on a cron schedule plus boot
 * Python setup and general housekeeping
 * Some better logging
@@ -32,10 +33,20 @@ Update `repo_url` in bootstrap.yml to point to your git repository. Rememeber th
 *NOTE* this will reboot your Pi once to start the auto-config pull
 
 ```shell
-    (ansible_env) $ ansible-playbook ./bootstrap.yml -t all
+    (ansible_env) $ ansible-playbook ./bootstrap.yml -t all --skip-tags "python"
 ```  
 
-If you do not want to use the local pull model but would like to bootstrap, you can exclude the `pull` tag to skip cron and clone
+## Bootstrap Tags
+
+Several tags are configured for customizing the bootstrap process with includes/excludes
+
+* `all` Configure with all the below tags
+* `pull` Sets up the cron jobs to pull the repository and set self-configuration execution schedule. 
+* `sshd` Generates new sshd keys
+* `sw` Installs basic software like ntp, avahi-daemon, git. Nothing Raspery Pi specific as that is in the rpi role
+* `users` Sets up any configured users and their ssh keys. These are not regular users but users like `ransible` for internal use
+* `python` Installs an alternative python via pyenv. Note pyenv compilation can take a long time on Zero and low powered machines. The default alternative is currently 3.9.5 however any version can be specified via command line argument extra arguments `--extra-vars "pyenv_python_version=3.9.10`
+
 
 ## Using Remote Mode (standard push model)
 
@@ -59,6 +70,7 @@ Then run the playbook from the Rasberry Pi :
 ```
 
 The playbook will self-discover its settings, then idempotently configure the Raspberry Pi.
+
 
 ## Host Configuration Options
 
@@ -89,6 +101,21 @@ This playbook can install ssh host keys.  To do so,
 3. `ansible-vault encrypt roles/common/files/etc/ssh/ssh_host_*_key.*`
 
 The playbook will detect the presence of these files and install them.
+
+## Ansible Role Overviews
+
+### Bootstrap
+
+This file sets up some initial files, crons jobs, ntp and other such basic linux materials. It is run on a freshly flashed image to prepare it
+
+### Common 
+
+This sets up common operations to all Raspberry Pis such a gpio-zero  
+
+### Rpi
+
+This is the big workhorse. Conceptually a lot of items could go into Common such as hostname, time_zone etc. However this is where they live no
+Right now this is also where a lot of the host specific material such has host_apt_software, host_pip_software, and host_ports are implimneted. 
 
 ## Acknowledgment
 

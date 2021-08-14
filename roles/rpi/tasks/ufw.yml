@@ -48,3 +48,12 @@
     logging: "on"
   tags:
     - ufw
+
+- name: "ufw : enable UFW"
+  ufw:
+    rule: allow
+    port: '{{ item }}'
+    proto: tcp
+  with_items: "{{ host_ports | default([]) }}"
+  tags:
+    - ufw

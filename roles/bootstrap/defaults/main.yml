@@ -4,6 +4,11 @@
     # User to run ansible-pull as from cron
     cron_user: root
 
+    # For  installing alternative pythons
+    pyenv_python_version : "3.9.5"
+    pyenv_install_dir : /home/pi
+    pyenv_executable : "{{pyenv_install_dir}}/.pyenv/bin/pyenv"
+
     # File that ansible will use for logs
     logfile: /var/log/ansible-pull.log
 

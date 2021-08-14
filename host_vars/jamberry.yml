@@ -18,6 +18,16 @@ enable_serial_hw: False
 enable_onewire: False
 enable_rgpio: True
 systemd_default_target: multi-user
-host_software:
-  - python3-virtualenv
+
+host_apt_software:
   - python3-yaml
+
+host_pip_software : []
+
+host_ports :  []
+
+# NOTE ANY PRIVATE OR UNACCESIBLE HTTP REPOS WILL HANG ANSIBLE
+
+default_projects: 
+  - https://github.com/elfgirl/pyLadies-SC.git
+  - https://github.com/silvanmelchior/RPi_Cam_Web_Interface.git

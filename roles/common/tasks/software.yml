@@ -7,18 +7,11 @@
     update_cache: yes
   vars:
     packages:
-      - vim
-      - screen
-      - git
-      - ufw
+      - build-essential 
       - fish
-  tags:
-    - sw
-
-- name: "software : install additional host-specific software"
-  apt:
-    name: "{{ host_software | default([]) }}"
-    state: present
-    update_cache: yes
+      - python-dev
+      - screen
+      - supervisor
+      - vim
   tags:
     - sw

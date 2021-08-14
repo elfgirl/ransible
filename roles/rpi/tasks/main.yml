@@ -87,9 +87,23 @@
 
 # Other tasks
 - include: software.yml
+  tags:
+    - sw
+
 - include: users.yml
+  tags:
+    - users
+
 - include: raspi-config.yml
+
 - include: python.yml
+  tags:
+    - python
+
+- include: projects.yml
+  tags:
+    - projects
+
 
 # Install motd
 # May be easier to pull from /sys/firmware/devicetree/base/model
