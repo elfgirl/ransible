@@ -1,4 +1,11 @@
 ---
+
+- name: "python : upgrade pip"
+  pip:
+    name: pip
+    executable: pip3
+    state: latest
+
 # Install software required for all environments
 - name: "python : install python material for Raspberry Pi"
   apt:

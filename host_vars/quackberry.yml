@@ -24,7 +24,7 @@ host_apt_software:
 
 host_pip_software :
   - uwsgi
-  - python3-inkyphat
+  - inky
   - python3-picamera
 
 host_ports : []
