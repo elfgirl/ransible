@@ -1,0 +1,4 @@
+- name: "webservers : Reload NGINX"
+  service:
+    name: nginx
+    state: reloaded

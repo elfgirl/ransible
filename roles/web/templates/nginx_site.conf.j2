@@ -1,0 +1,10 @@
+server {
+    listen {{item.app_port}};
+    server_tokens off;
+    charset utf-8;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/{{ ansible_ssh_user }}/{{ item.app_name }}/{{ item.app_name }}.sock;
+    }
+}

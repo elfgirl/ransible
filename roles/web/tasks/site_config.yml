@@ -1,0 +1,17 @@
+
+- name: "webserver : template nginx site config"
+  template:
+    src: nginx.j2
+    dest: "/etc/nginx/sites-available/{{ item.app_name }}"
+  with_items: "{{ webserver_sites }}"
+
+- name: Add static site config files
+  template:
+    src: nginx_site.conf.j2
+    dest: "/etc/nginx/conf.d/{{ item.name }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: "{{ webserver_sites }}"
+  notify: Reload NGINX
+

@@ -1,2 +1,2 @@
 # Directory to where projects will be cloned
-projects_workdir: /home/pi/projects
+projects_workdir: /opt/pi/projects

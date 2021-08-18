@@ -1,0 +1,50 @@
+- name: "webserver : install software for Raspberry Pi"
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+      - python3-pip
+      - python3-dev
+      - nginx
+
+- name: "webserver : now the pip installs"
+  pip:
+    name:
+      - gunicorn
+      - supervisor
+      - flask
+    executable: pip3
+
+- name: "webserver : set supervisor for gunicorn"
+  template:
+    src: gunicorn.conf.j2
+    dest: "/etc/supervisor/conf.d/gunicorn.conf"
+
+- name: "webserver : add base NGINX configuration file"
+  template:
+    dest: /etc/nginx/nginx.conf
+    src: nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: Reload NGINX    
+
+- name : "webserver : loops site configutations"
+  import_tasks: site_config.yml
+  vars:
+      webserver_sites:
+        - { app_name : waterer, app_port : 5051 }  
+
+- name: "webserver : remove default nginx site config"
+  file: 
+    path: /etc/nginx/sites-enabled/default 
+    state: absent
+
+
+
+- name: "webserver : open firewall for nginx"
+  ufw:
+    rule: allow
+    name: Nginx Full

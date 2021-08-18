@@ -1,0 +1,31 @@
+
+- name: "supervisor : clone {{ raspi_hostname }} into {{ projects_workdir }} for {{item.name}} or update to latest"
+  become: yes
+  become_user: "{{item.app_user}}"
+  git:
+    repo: "{{ item.repo }}"
+    dest: "{{ projects_workdir }}/{{item.name}}"
+    update: yes
+    force:  yes
+  with_items: "{{ host_supervisor_apps | default([]) }}"
+
+- name: "supervisor : run a pipenv install for any new requirements (or initial setup)"
+  become: yes
+  become_user: "{{item.app_user}}"
+  environment:
+    LANG: "{{ locale }}"
+  command: "pipenv --bare install --dev"
+  args:
+    chdir: "{{ projects_workdir }}/{{item.name}}"
+  with_items: "{{ host_supervisor_apps | default([]) }}"
+
+- name: "supervisor : adding app configurations to /etc/supervisor/conf.d/{{item.name}} "
+  template:
+    src: supervisor_app.conf.j2
+    dest: "/etc/supervisor/conf.d/{{ item.name }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+  with_items: "{{ host_supervisor_apps | default([]) }}"
+
+

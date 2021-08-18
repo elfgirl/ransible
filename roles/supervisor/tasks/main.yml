@@ -1,0 +1,25 @@
+- include_tasks: ../rpi/tasks/loadconfig.yml
+
+- name: "supervisor :  pip installs of supervisor and pipenv"
+  pip:
+    name:
+      - supervisor
+      - pipenv
+    executable: pip3
+
+- name: "supervisor : ensure base {{ projects_workdir }}"
+  file:
+    path: "{{  projects_workdir }}"
+    state: directory
+    owner: pi
+    group: pi
+
+- name : "supervisor : loops host app configutations"
+  include_tasks: app_config.yml
+
+- name: "supervisor : reread changed applications"
+  command: "supervisorctl reread"
+
+- name: "supervisor : update changed applications"
+  command: "supervisorctl update"
+
