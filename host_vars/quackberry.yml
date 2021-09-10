@@ -25,17 +25,21 @@ host_apt_software:
 host_pip_software :
   - uwsgi
   - inky
-  - python3-picamera
 
 host_ports : []
 
+host_supervisor_apps :
+  - name : waterer,
+    app_exec : ServerWater.py 
+    app_user : pi
+    repo : 'https://elfgirl:{{pinecrest_pat}}@github.com/elfgirl/pinecrest.git'
+
+
 # NOTE ANY PRIVATE OR UNACCESIBLE HTTP REPOS WILL HANG ANSIBLE
 
-pat: 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
+pinecrest_pat: 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
 
 default_projects: 
-  - { name : 'pyLadies-SC', repo : 'https://github.com/elfgirl/pyLadies-SC.git' }
-  - { name : 'RPi_Cam_Web_Interface', repo : 'https://github.com/silvanmelchior/RPi_Cam_Web_Interface.git' }
-  - { name : 'pinecrest', repo : 'https://elfgirl:{{pat}}@github.com/elfgirl/pinecrest.git'}
+  - { name : 'pinecrest', repo : 'https://elfgirl:{{pinecrest_pat}}@github.com/elfgirl/pinecrest.git'}
 
 

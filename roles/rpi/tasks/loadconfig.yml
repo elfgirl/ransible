@@ -6,25 +6,15 @@
     my_macaddr: "{{ hostvars[inventory_hostname].ansible_eth0.macaddress }}"
   when: "'ansible_eth0' in hostvars[inventory_hostname]"
   tags:
-    - raspi
-    - sw
-    - sshd
-    - motd
-    - projects
-
-
-
+    - always
+    
 # Raspberry Pi Zero W has no eth0, so fall back to wlan0
 - name: "load config : store MAC address for wlan0"
   set_fact:
     my_macaddr: "{{ hostvars[inventory_hostname].ansible_wlan0.macaddress }}"
   when: "my_macaddr is not defined"
   tags:
-    - raspi
-    - sw
-    - sshd
-    - motd
-    - projects
+    - always
 
 # for model A, we cannot proceed because there is no mac address
 
@@ -32,11 +22,7 @@
   include_vars:
     file: "../../../host_vars/{{ macaddrs[my_macaddr] }}.yml"
   tags:
-    - raspi
-    - sw
-    - sshd
-    - motd
-    - projects
+    - always
     
 - name: "load config : assert that configuration is loaded"
   assert:

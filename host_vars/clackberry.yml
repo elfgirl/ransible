@@ -24,12 +24,11 @@ host_apt_software:
 host_pip_software :
   - uwsgi
   - inky
-  - python3-picamera
 
 host_ports :  []
 
 # NOTE ANY PRIVATE OR UNACCESIBLE HTTP REPOS WILL HANG ANSIBLE
 
 default_projects: 
-  - https://github.com/elfgirl/pyLadies-SC.git
-  - https://github.com/silvanmelchior/RPi_Cam_Web_Interface.git
+  - { name : 'pyLadies-SC', repo : 'https://github.com/elfgirl/pyLadies-SC.git' }
+  - { name : 'RPi_Cam_Web_Interface', repo : 'https://github.com/silvanmelchior/RPi_Cam_Web_Interface.git' }
