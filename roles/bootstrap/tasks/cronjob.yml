@@ -6,6 +6,15 @@
     group=root 
     mode=0751
 
+- name: "cronjob : distribute vault password file protecting any PAT for private repos"
+  template: 
+    src=templates/var_lib_ansible_vault-password.j2 
+    dest=/var/lib/ansible/vault-password 
+    owner=root 
+    group=root 
+    mode=0644
+  when : vault_password is defined and vault_password
+
 - name: "cronjob : create regular crontab entry to clone/pull git repository"
   template: 
     src=templates/etc_cron.d_ansible-pull.j2 

@@ -5,6 +5,7 @@
   connection: local
   vars_files:
     - host_vars/host_maps.yml
+    - secrets.yml
 
   roles:
     - common

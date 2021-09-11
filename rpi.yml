@@ -3,6 +3,7 @@
 - hosts: raspberrypi
   vars_files:
     - host_vars/host_maps.yml
+    - secrets.yml
   vars: 
     ansible_shell_allow_world_readable_temp: true 
     pipelining: True

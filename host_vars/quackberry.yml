@@ -37,7 +37,7 @@ host_supervisor_apps :
 
 # NOTE ANY PRIVATE OR UNACCESIBLE HTTP REPOS WILL HANG ANSIBLE
 
-pinecrest_pat: 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
+pinecrest_pat: "" # Should be stored in ansible vault
 
 default_projects: 
   - { name : 'pinecrest', repo : 'https://elfgirl:{{pinecrest_pat}}@github.com/elfgirl/pinecrest.git'}
