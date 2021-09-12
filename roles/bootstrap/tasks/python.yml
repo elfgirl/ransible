@@ -24,6 +24,7 @@
       - libxmlsec1-dev 
       - libffi-dev 
       - liblzma-dev
+      - cryptography
 
 - name: "python : Determin if pyenv is installed"
   stat:
