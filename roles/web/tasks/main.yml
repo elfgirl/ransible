@@ -25,7 +25,7 @@
 - name: "webserver : add base NGINX configuration file"
   template:
     dest: /etc/nginx/nginx.conf
-    src: nginx.conf
+    src: nginx.conf.j2
     owner: root
     group: root
     mode: 0644
