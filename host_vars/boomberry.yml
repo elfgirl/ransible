@@ -1,0 +1,52 @@
+---
+timezone: "America/Los_Angeles"
+locale: "en_US.UTF-8"
+raspi_hostname: "boomberry"
+raspi_domain: "local"
+xkblayout: "us"
+wifi_country: "US"
+enable_gui: False
+enable_autologin: False
+enable_bootwait: False
+enable_bootsplash: False
+enable_camera: False
+enable_vnc: False
+enable_spi: True
+enable_i2c: True
+enable_serial: True
+enable_serial_hw: False
+enable_onewire: False
+enable_rgpio: True
+systemd_default_target: multi-user
+
+host_apt_software:
+  - python3-yaml
+
+host_pip_software :
+  - uwsgi
+  - inky
+
+# host_ports : []
+
+# host_supervisor_apps :
+#   - name : waterer,
+#     app_exec : ServerWater.py 
+#     app_user : pi
+#     repo : 'https://elfgirl:{{pat_pinecrest}}@github.com/elfgirl/pinecrest.git'
+
+
+# # NOTE ANY PRIVATE OR UNACCESIBLE HTTP REPOS WILL HANG ANSIBLE
+
+# pat_pinecrest: !vault |
+#           $ANSIBLE_VAULT;1.1;AES256
+#           66333361663530633265636538656566633937333165393433643566663931393463373463313731
+#           3039393430663864316235323061343961376665643935610a666261373361343537323063356464
+#           38323333626430366134613136393734363837393264626638363966303232343632363939633938
+#           3465333133363330610a326163326264626165313465636563353962663262633836646362353735
+#           65653666386165356230303063383139643061396239386635646663396338636438383737376665
+#           3335333766353734313639653530323236333436353334383937
+          
+# default_projects: 
+#   - { name : 'pinecrest', repo : 'https://elfgirl:{{pat_pinecrest}}@github.com/elfgirl/pinecrest.git'}
+
+
