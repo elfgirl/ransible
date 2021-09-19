@@ -1,8 +1,9 @@
 [bootstrap]
-pi_boot  ansible_host=raspberry.local ansible_user=pi ansible_password=raspberry
 
 [raspberrypi]
 jamberry  ansible_host=jamberry.local ansible_user=ransible ansible_ssh_private_key_file=~/.ssh/ransible
+clickberry  ansible_host=clickberry.local ansible_user=ransible ansible_ssh_private_key_file=~/.ssh/ransible
 clackberry  ansible_host=clackberry.local ansible_user=ransible ansible_ssh_private_key_file=~/.ssh/ransible
 quackberry  ansible_host=quackberry.local ansible_user=ransible ansible_ssh_private_key_file=~/.ssh/ransible
 moonberry  ansible_host=moonberry.local ansible_user=ransible ansible_ssh_private_key_file=~/.ssh/ransible
+boomberry  ansible_host=boomberry.local ansible_user=ransible ansible_ssh_private_key_file=~/.ssh/ransible
