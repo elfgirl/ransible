@@ -15,7 +15,7 @@
   ufw:
     rule: allow
     to_ip: 224.0.0.251
-    proto: igmp
+    proto: icmp
     log: no
   tags:
     - ufw
