@@ -37,6 +37,14 @@ Update `repo_url` in bootstrap.yml to point to your git repository. Rememeber th
     (ansible_env) $ ansible-playbook ./bootstrap.yml -t all --skip-tags "python"
 ```  
 
+or if you are planning to use a vault to protect PATs and other secrets on ansible-pull, then add a variable for vault_password to set the password used for anything contained in `secrets.yml`
+
+```shell
+    (ansible_env) $ ansible-playbook ./bootstrap.yml -t all --skip-tags "python" -e vault_password=883lRL347Sf2gcPk
+```  
+
+
+
 ## Bootstrap Tags
 
 Several tags are configured for customizing the bootstrap process with includes/excludes
@@ -107,7 +115,7 @@ The playbook will detect the presence of these files and install them.
 
 ## Bootstrap
 
-This file sets up some initial files, crons jobs, ntp and other such basic linux materials. It is run on a freshly flashed image to prepare it. Project or role specific material is not set up here
+This file sets up some initial files, crons jobs, ntp and other such basic linux materials. It is run on a freshly flashed image to prepare it. Project or role specific material is not set up here. If you are going to use a vault password for later repository pulls, here is where it is placed on the host. 
 
 ## Common 
 
@@ -156,3 +164,7 @@ Sets up gunicorn/nginx for projects that expose out uWSGI applications. Example 
 ## Acknowledgment
 
 I stole a lot of knowledge from https://github.com/glennklockwood/rpi-ansible
+
+Vault : 883lRL347Sf2gcPk
+
+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
