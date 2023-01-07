@@ -1,12 +1,14 @@
     # schedule is fed directly to cron
     schedule: '0 */12 * * *'
 
+    default_user: "{{ ansible_user }}"
+
     # User to run ansible-pull as from cron
     cron_user: root
 
     # For  installing alternative pythons
-    pyenv_python_version : "3.9.5"
-    pyenv_install_dir : /home/pi
+    pyenv_python_version : "3.10.9"
+    pyenv_install_dir : "/home/{{default_user}}"
     pyenv_executable : "{{pyenv_install_dir}}/.pyenv/bin/pyenv"
 
     # File that ansible will use for logs

@@ -51,20 +51,20 @@
 - name: "python : Ensure .pyenv permissions are set properly"
   file: path="{{pyenv_install_dir}}/.pyenv"
         recurse=yes
-        owner=pi
-        group=pi
+        owner="{{ default_user }}"
+        group="{{ default_user }}"
         state=directory
 
 - name: "python : Determine if {{pyenv_python_version}} is installed"
   become: yes
-  become_user: 'pi'
+  become_user: "{{ default_user }}"
   shell: "{{pyenv_executable}} versions"
   register: register_pyenv_versions
 
 
 - name: "python : Install python version {{pyenv_python_version}}. This may take awhile on low power machines. Get some coffee or tea maybe"
   become: yes
-  become_user: 'pi'
+  become_user: "{{ default_user }}"
   shell: "{{ pyenv_executable }} install {{ pyenv_python_version }}"
   args:
       executable: /usr/bin/bash
@@ -72,7 +72,7 @@
 
 - name: "python : Set global python to {{pyenv_python_version}}"
   become: yes
-  become_user: 'pi'
+  become_user: "{{ default_user }}"
   shell: "{{pyenv_executable}} global {{pyenv_python_version}} "
 
 
