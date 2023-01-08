@@ -10,10 +10,11 @@
       - ansible
       - avahi-daemon
       - git
-      - ntp
       - powertop
+      - ntp
       - python3-pip
       - ufw
+      - vim
 
 - name: "software : Run the equivalent of 'apt-get update' as a separate step"
   apt:
