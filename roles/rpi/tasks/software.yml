@@ -10,7 +10,7 @@
       - gpiod
       - i2c-tools
       - libi2c-dev
-      - python-smbus
+      #- python-smbus
       - python3-smbus
 
 
