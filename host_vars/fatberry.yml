@@ -1,7 +1,7 @@
 ---
 timezone: "America/Los_Angeles"
 locale: "en_US.UTF-8"
-raspi_hostname: "ramberry"
+raspi_hostname: "fatberry"
 raspi_domain: "local"
 xkblayout: "us"
 wifi_country: "US"
@@ -26,7 +26,6 @@ host_pip_software :  [
   torch,
   torchaudio,
   torchvision,
-  pafy,
   pandas,
   ipython,
   psutil,
