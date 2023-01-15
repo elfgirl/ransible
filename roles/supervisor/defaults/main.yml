@@ -1,1 +1,3 @@
-projects_workdir: /opt/pi/projects
+projects_workdir: "/opt/{{ ansible_user }}/projects"
+
+default_user: "{{ ansible_user }}"

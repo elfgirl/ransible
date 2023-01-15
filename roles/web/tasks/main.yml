@@ -31,11 +31,12 @@
     mode: 0644
   notify: Reload NGINX    
 
-- name : "webserver : loops site configutations"
-  import_tasks: site_config.yml
-  vars:
-      webserver_sites:
-        - { app_name : waterer, app_port : 5051 }  
+#- name : "webserver : loops site configutations"
+#  import_tasks: site_config.yml
+#  vars:
+#      webserver_sites:
+#        - { app_name : waterer, app_port : 5051 }  
+
 
 - name: "webserver : remove default nginx site config"
   file: 

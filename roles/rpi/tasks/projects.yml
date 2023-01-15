@@ -10,3 +10,4 @@
     repo: "{{ item.repo }}"
     dest: "{{ projects_workdir }}/{{item.name}}"
   with_items: "{{ default_projects | default([]) }}"
+  when: "{{ default_projects }}"

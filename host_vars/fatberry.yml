@@ -53,5 +53,5 @@ host_ports :  [8080, 9090]
 
 default_projects: 
 #   - { name : 'pyLadies-SC', repo : 'https://github.com/elfgirl/pyLadies-SC.git' }
-   - { name : 'RPi_Cam_Web_Interface', repo : 'https://github.com/silvanmelchior/RPi_Cam_Web_Interface.git' }
+#   - { name : 'RPi_Cam_Web_Interface', repo : 'https://github.com/silvanmelchior/RPi_Cam_Web_Interface.git' }
 #   - { name : 'pinecrest', repo : 'https://elfgirl:{{pinecrest_pat}}@github.com/elfgirl/pinecrest.git'}
